@@ -13,18 +13,26 @@ const FuncionarioList = () => {
         setSearchTitle(e.target.value);
         setFuncionarios(FuncionarioDataService.filterByName(e.target.value));
     }
+
     function deleteFuncionario(id) {
-        if (window.confirm("Deseja excluir?")) {
+        if (window.confirm("Deseja excluir?"))
             FuncionarioDataService.remove(id);
-        }
+
+        setFuncionarios(FuncionarioDataService.getAll());
+    }
+
+    function deleteAllFuncionarios() {
+        if (
+            window.confirm(
+                "Tem certeza que deseja deletar todos os funcionários?"
+            )
+        )
+            FuncionarioDataService.removeAll();
         setFuncionarios(FuncionarioDataService.getAll());
     }
 
     return (
-        <div
-            className="list row d-flex justify-content-center"
-            /* style={{ backgroundColor: "blue" }} */
-        >
+        <div className="list row d-flex justify-content-center">
             <div className="col-md-10">
                 <div className="input-group mb-3">
                     <input
@@ -42,7 +50,7 @@ const FuncionarioList = () => {
                         Adicionar
                     </button>
                 </Link>
-                <Link onClick={() => console.log(funcionarios)}>
+                <Link onClick={deleteAllFuncionarios}>
                     <button type="button" className="btn btn-danger">
                         Deletar todos
                     </button>
