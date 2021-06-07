@@ -9,15 +9,11 @@ const getAll = () => {
 
 const getById = (id) => {
     if (id === "") return FUNCIONARIOS;
-    //var filtrado = PRODUCTS.filter((obj) => { return obj.title == title; });  // retorna os objs que são iguais
-    //var filtrado = PRODUCTS.filter((obj) => obj.title == title ); // retorna os objs que são iguais
-    var encontrado = FUNCIONARIOS.find((obj) => obj.id == id); // retorna os objs que contém
+    var encontrado = FUNCIONARIOS.find((obj) => obj.id == id); // retorna o obj com o id passado
     return encontrado;
 };
 const filterByName = (name) => {
     if (name === "") return FUNCIONARIOS;
-    //var filtrado = PRODUCTS.filter((obj) => { return obj.title == title; });  // retorna os objs que são iguais
-    //var filtrado = PRODUCTS.filter((obj) => obj.title == title ); // retorna os objs que são iguais
     var filtrado = FUNCIONARIOS.filter((obj) =>
         obj.name.toLowerCase().includes(name.toLowerCase())
     ); // retorna os objs que contém
@@ -40,6 +36,9 @@ const update = (funcionario) => {
         func.id === funcionario.id ? funcionario : func
     );
 };
+const removeAll = () => {
+    FUNCIONARIOS = [];
+};
 
 export default {
     getAll,
@@ -48,4 +47,5 @@ export default {
     remove,
     create,
     update,
+    removeAll,
 };

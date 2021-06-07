@@ -1,13 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
+import logo from "../images/hubfarmagrande.png";
 
 function Navegacao(props) {
     return (
         <div>
             <nav className="navbar navbar-expand navbar-dark bg-dark">
                 <a href="/" className="navbar-brand">
-                    Exemplo Bootstrap
+                    <img
+                        src={logo}
+                        style={{ height: "60px" }}
+                        className="img-fluid"
+                    />
                 </a>
                 <div className="navbar-nav mr-auto">
                     <li className="nav-item">
