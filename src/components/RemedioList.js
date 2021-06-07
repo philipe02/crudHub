@@ -46,28 +46,32 @@ const RemedioList = () => {
               <thead class="thead-dark">
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">Title</th>
-                  <th scope="col">Description</th>
+                  <th scope="col">nome</th>
+                  <th scope="col">substancia</th>
+                  <th scope="col">laboratorio</th>
+                  <th scope="col">preço</th>
                   <th scope="col"></th>
                   <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
                 { 
-                  remedios!=null && //vê se tutorial nao é null
-                  remedios.map((tutorial, index) => ( //para cada item da lista vai ter uma seção na tabela
+                    remedios!=null && //vê se remedio nao é null
+                    remedios.map((remedio, index) => ( //para cada item da lista vai ter uma seção na tabela
                     <tr>
-                      <th scope="row">{tutorial.id}</th>
-                      <td>{tutorial.title}</td>
-                      <td>{tutorial.description}</td>
-                      <td> <Link to={"/remedios/" + tutorial.title} //cria um botão de manda para tutorial(tela de editar) do produto
+                        <th scope="row">{remedio.id}</th>
+                        <td>{remedio.nome}</td>
+                        <td>{remedio.substancia}</td>
+                        <td>{remedio.laboratorio}</td>
+                        <td>{remedio.preco}</td>
+                        <td> <Link to={"/remedios/" + remedio.nome} //cria um botão de manda para remedio(tela de editar) do produto
                         className="m-3 btn btn-sm btn-warning">Edit</Link> 
-                      </td>
-                      <td> <Link onClick={() => deleteRemedio(tutorial.title)} //cria botão chama a função de remover
+                        </td>
+                        <td> <Link onClick={() => deleteRemedio(remedio.nome)} //cria botão chama a função de remover
                         className="m-3 btn btn-sm btn-danger">Remove</Link>
-                      </td>
+                        </td>
                     </tr>
-                  ))
+                    ))
                 }
                 </tbody>
               </table>

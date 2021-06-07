@@ -1,16 +1,19 @@
 let REMEDIOS=[
-    {id: 1,nome:"",utilidade:"",principioAtivio:"",receita:true,gramas:50,laboratorio:"",preco:20,}
+    {id: 1,nome:"Sporoma",utilidade:"Fungicida",substancia:"Traconazol",receita:true,gramas:100,laboratorio:"Medlay",preco:120,},
+    {id: 2,nome:"ddddd",utilidade:"Fungicida",substancia:"8888",receita:true,gramas:100,laboratorio:"Medlay",preco:120,}
 ]
 const getAll = () => {
     return REMEDIOS;
   };
 const getById = (title) => {
-    if (title === "") {return REMEDIOS}
+    let filtro=title.toUpperCase()
+    if (filtro === "") {return REMEDIOS}
     var filtrado = REMEDIOS.filter( //filtra os objetos de REMEDIOS
-        (obj) => obj.nome.includes(title) ); //juntas os objetos filtrados em um array
-    if (filtrado==="") {
+        (obj) => obj.nome.toUpperCase().includes(filtro) ); //juntas os objetos filtrados em um array
+    console.log(filtrado);
+    if (filtrado.length == 0) {
         filtrado = REMEDIOS.filter( //filtra os objetos de REMEDIOS
-            (obj) => obj.principioAtivio.includes(title) ); //juntas os objetos filtrados em um array
+            (obj) => obj.substancia.toUpperCase().includes(filtro) ); //juntas os objetos filtrados em um array
     }
     return filtrado
 };
