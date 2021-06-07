@@ -11,29 +11,50 @@ const FuncionarioList = () => {
 
     function onChangeSearchTitle(e) {
         setSearchTitle(e.target.value);
+        setFuncionarios(FuncionarioDataService.filterByName(e.target.value));
     }
-    function deleteFuncionario() {}
+    function deleteFuncionario(id) {
+        if (window.confirm("Deseja excluir?")) {
+            FuncionarioDataService.remove(id);
+        }
+        setFuncionarios(FuncionarioDataService.getAll());
+    }
 
     return (
-        <div class="list row">
-            <div class="col-md-10">
-                <div class="input-group mb-3">
+        <div
+            className="list row d-flex justify-content-center"
+            /* style={{ backgroundColor: "blue" }} */
+        >
+            <div className="col-md-10">
+                <div className="input-group mb-3">
                     <input
                         type="text"
-                        class="form-control"
+                        className="form-control"
                         placeholder="Search by title"
                         value={searchTitle}
                         onChange={onChangeSearchTitle}
                     />
                 </div>
             </div>
-            <div class="col-md-10">
-                <table class="table">
-                    <thead class="thead-dark">
+            <div className="mb-2 w-50 d-flex justify-content-between">
+                <Link to="funcionario/add">
+                    <button type="button" className="btn btn-primary">
+                        Adicionar
+                    </button>
+                </Link>
+                <Link onClick={() => console.log(funcionarios)}>
+                    <button type="button" className="btn btn-danger">
+                        Deletar todos
+                    </button>
+                </Link>
+            </div>
+            <div className="col-md-10">
+                <table className="table">
+                    <thead className="thead-dark">
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Description</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Cargo</th>
                             <th scope="col"></th>
                             <th scope="col"></th>
                         </tr>
@@ -41,7 +62,7 @@ const FuncionarioList = () => {
                     <tbody>
                         {funcionarios &&
                             funcionarios.map((funcionario, index) => (
-                                <tr>
+                                <tr key={funcionario.id}>
                                     <th scope="row">{funcionario.id}</th>
                                     <td>{funcionario.name}</td>
                                     <td>{funcionario.role}</td>
@@ -51,11 +72,9 @@ const FuncionarioList = () => {
                                             to={
                                                 "/funcionario/" + funcionario.id
                                             }
-                                            className="badge bg-warning"
+                                            className="badge badge-warning"
                                         >
-                                            <span className="badge badge-warning">
-                                                Edit
-                                            </span>
+                                            Edit
                                         </Link>
                                     </td>
                                     <td>

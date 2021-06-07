@@ -1,7 +1,7 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import AddFuncionario from "./components/Funcionario/AddFuncionario";
 import Funcionario from "./components/Funcionario/Funcionario";
 import FuncionarioList from "./components/Funcionario/FuncionarioList";
@@ -26,10 +26,7 @@ function App() {
                         path="/funcionario/add"
                         component={AddFuncionario}
                     />
-                    <Route
-                        path="/funcionario/:id"
-                        component={FuncionarioList}
-                    />
+                    <Route path="/funcionario/:id" component={Funcionario} />
                 </Switch>
             </div>
         </div>
