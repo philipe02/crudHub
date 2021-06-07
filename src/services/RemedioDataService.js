@@ -1,6 +1,6 @@
 let REMEDIOS=[
     {id: 1,nome:"Sporoma",utilidade:"Fungicida",substancia:"Traconazol",receita:true,gramas:100,laboratorio:"Medlay",preco:120,},
-    {id: 2,nome:"ddddd",utilidade:"Fungicida",substancia:"8888",receita:true,gramas:100,laboratorio:"Medlay",preco:120,}
+    {id: 2,nome:"ddddd",utilidade:"Fungicida",substancia:"8888",receita:false,gramas:100,laboratorio:"Medlay",preco:120,}
 ]
 const getAll = () => {
     return REMEDIOS;

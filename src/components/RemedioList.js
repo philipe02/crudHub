@@ -50,6 +50,7 @@ const RemedioList = () => {
                   <th scope="col">substancia</th>
                   <th scope="col">laboratorio</th>
                   <th scope="col">preço</th>
+                  <th scope="col">receita</th>
                   <th scope="col"></th>
                   <th scope="col"></th>
                 </tr>
@@ -64,6 +65,7 @@ const RemedioList = () => {
                         <td>{remedio.substancia}</td>
                         <td>{remedio.laboratorio}</td>
                         <td>{remedio.preco}</td>
+                        <td>{remedio.receita}</td>
                         <td> <Link to={"/remedios/" + remedio.nome} //cria um botão de manda para remedio(tela de editar) do produto
                         className="m-3 btn btn-sm btn-warning">Edit</Link> 
                         </td>
