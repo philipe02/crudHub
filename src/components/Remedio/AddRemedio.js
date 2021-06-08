@@ -1,5 +1,5 @@
 import React from "react";
-const Tutorial = () => {
+const AddRemedio = () => {
     return <div></div>;
 };
-export default Tutorial;
+export default AddRemedio;
