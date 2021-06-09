@@ -11,7 +11,7 @@ const AddFuncionario = (props) => {
     };
     const [funcionario, setFuncionario] = useState(initialState);
     const [submitted, setSubmitted] = useState(false);
-
+    const form = document.querySelector("#addFuncForm");
     function novoFuncionario() {
         setFuncionario(initialState);
         setSubmitted(false);
@@ -56,53 +56,59 @@ const AddFuncionario = (props) => {
                                 <h4>Funcionário adicionado</h4>
                             </>
                         ) : (
-                            <form
-                                id="addFuncForm"
-                                onSubmit={handleSubmit}
-                                className="w-75 mb-4"
-                            >
-                                <label className="mt-2">Nome</label>
-                                <input
-                                    id="input-name"
-                                    name="name"
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Digite o nome"
-                                    value={funcionario.name}
-                                    onChange={handleChange}
-                                    required
-                                />
-                                <label className="mt-2">Cargo</label>
-                                <select
-                                    id="select-role"
-                                    name="role"
-                                    className="form-control"
-                                    value={funcionario.role}
-                                    onChange={handleChange}
-                                    required
+                            <>
+                                <form
+                                    id="addFuncForm"
+                                    onSubmit={handleSubmit}
+                                    className="w-75 mb-4"
                                 >
-                                    <option defaultValue value="">
-                                        Selecione o cargo
-                                    </option>
-                                    <option value="Atendente">Atendente</option>
-                                    <option value="Farmacêutico">
-                                        Farmacêutico
-                                    </option>
-                                    <option value="Segurança">Segurança</option>
-                                    <option value="Gerente">Gerente</option>
-                                </select>
-                                <label className="mt-2">Salário</label>
-                                <input
-                                    id="input-salary"
-                                    name="salary"
-                                    type="number"
-                                    className="form-control"
-                                    placeholder="Insira o salário"
-                                    value={funcionario.salary}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </form>
+                                    <label className="mt-2">Nome</label>
+                                    <input
+                                        id="input-name"
+                                        name="name"
+                                        type="text"
+                                        className="form-control"
+                                        placeholder="Digite o nome"
+                                        value={funcionario.name}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <label className="mt-2">Cargo</label>
+                                    <select
+                                        id="select-role"
+                                        name="role"
+                                        className="form-control"
+                                        value={funcionario.role}
+                                        onChange={handleChange}
+                                        required
+                                    >
+                                        <option defaultValue value="">
+                                            Selecione o cargo
+                                        </option>
+                                        <option value="Atendente">
+                                            Atendente
+                                        </option>
+                                        <option value="Farmacêutico">
+                                            Farmacêutico
+                                        </option>
+                                        <option value="Segurança">
+                                            Segurança
+                                        </option>
+                                        <option value="Gerente">Gerente</option>
+                                    </select>
+                                    <label className="mt-2">Salário</label>
+                                    <input
+                                        id="input-salary"
+                                        name="salary"
+                                        type="number"
+                                        className="form-control"
+                                        placeholder="Insira o salário"
+                                        value={funcionario.salary}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </form>
+                            </>
                         )}
                     </div>
                     <div class="modal-footer">
@@ -114,14 +120,13 @@ const AddFuncionario = (props) => {
                                 Adicionar
                             </button>
                         ) : (
-                            <button
-                                type="submit"
-                                className="btn btn-primary"
-                                form="addFuncForm"
-                            >
-                                Adicionar
-                            </button>
+                            <Link to={"/funcionario"} onClick={handleSubmit}>
+                                <button className="btn btn-primary">
+                                    Adicionar
+                                </button>
+                            </Link>
                         )}
+
                         <button
                             type="button"
                             class="btn btn-secondary"

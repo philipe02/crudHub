@@ -1,14 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import FuncionarioDataService from "../../services/FuncionarioDataService";
 import { Link } from "react-router-dom";
 import AddFuncionario from "./AddFuncionario";
+import Funcionario from "./Funcionario";
 
 const FuncionarioList = () => {
+    const initialState = {
+        id: null,
+        name: "",
+        role: "",
+        salary: "",
+    };
     const [searchTitle, setSearchTitle] = useState("");
-    const [funcionarios, setFuncionarios] = useState(
-        FuncionarioDataService.getAll()
-    );
+    const [funcionarios, setFuncionarios] = useState([]);
+    const [funcionarioAtual, setFuncionarioAtual] = useState(initialState);
 
     function onChangeSearchTitle(e) {
         setSearchTitle(e.target.value);
@@ -23,7 +29,10 @@ const FuncionarioList = () => {
     }
     function atualizarLista() {
         console.log("entrei");
-        setFuncionarios(FuncionarioDataService.getAll());
+        FuncionarioDataService.getAll().then((response) => {
+            setFuncionarios(response.data);
+        });
+        console.log(FuncionarioDataService.getAll());
     }
 
     function handleAdd() {}
@@ -40,11 +49,10 @@ const FuncionarioList = () => {
         console.log(funcionarios);
         setFuncionarios(FuncionarioDataService.getAll());
     }
+    useEffect(atualizarLista, []);
 
     return (
         <div className="list row d-flex justify-content-center">
-            <AddFuncionario atualizarLista={atualizarLista} />
-
             <div className="col-md-10">
                 <div className="input-group mb-3">
                     <input
@@ -93,12 +101,17 @@ const FuncionarioList = () => {
                                 <td>{funcionario.role}</td>
                                 <td>
                                     {" "}
-                                    <Link
-                                        to={"/funcionario/" + funcionario.id}
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            setFuncionarioAtual(funcionario)
+                                        }
                                         className="badge badge-warning"
+                                        data-toggle="modal"
+                                        data-target="#editFuncModal"
                                     >
                                         Edit
-                                    </Link>
+                                    </button>
                                 </td>
                                 <td>
                                     {" "}
@@ -117,6 +130,11 @@ const FuncionarioList = () => {
                     <tbody></tbody>
                 </table>
             </div>
+            <AddFuncionario atualizarLista={atualizarLista} />
+            <Funcionario
+                setFuncionarios={setFuncionarios}
+                funcionarioAtual={funcionarioAtual}
+            />
         </div>
     );
 };
