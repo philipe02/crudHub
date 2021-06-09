@@ -6,8 +6,23 @@ let Remedy = [
     {title: 'Loratadina', estoque: 'Disponivel', laboratorio:"Aché Laboratórios Farmacêuticos S.A." ,published: 'Published'}
   ]
 
-  const remove = (key) => {
-    return Remedy.splice(Remedy.indexOf(key), 1);
+  const remove = (id) => {
+   Remedy = Remedy.filter((title)=>{
+      return title.title !== id 
+  })
+  }
+
+  const update = (key, data) => {
+    
+    Remedy.forEach(function(item) {
+      if (item.title === key){
+        item.title = data.title;
+        item.estoque = data.estoque;
+        item.laboratorio = data.laboratorio;
+        item.published = data.published;
+      }
+    });
+    return 
   };
   
   
@@ -15,11 +30,12 @@ let Remedy = [
     return Remedy;
   };
   
-  const getById = (title) => {
-    if (title === "") return Remedy
-    
-    var filtrado = Remedy.filter((obj) => obj.title.includes(title) ); // retorna os objs que contém title
-    return filtrado
+  const getById = (id) => {
+    let filtro = id.toLowerCase()
+    let filtrado = Remedy.filter((obj)=>{
+      return obj.title.toLowerCase().includes(filtro);
+      })
+    return filtrado;
     
   };
 
@@ -30,4 +46,5 @@ let Remedy = [
     return Remedy.push(data);
   };
   
-  export default {getAll,getById,remove,removeAll,createe};
+  
+  export default {getAll,getById,remove,removeAll,update,createe};
