@@ -8,27 +8,39 @@ const getAll = () => {
 const getById = (title) => {
     let filtro=title.toUpperCase()
     if (filtro === "") {return REMEDIOS}
-    var filtrado = REMEDIOS.filter( //filtra os objetos de REMEDIOS
+    var filtradoNome = REMEDIOS.filter( //filtra os objetos de REMEDIOS
         (obj) => obj.nome.toUpperCase().includes(filtro) ); //juntas os objetos filtrados em um array
-    console.log(filtrado);
-    if (filtrado.length == 0) {
-        filtrado = REMEDIOS.filter( //filtra os objetos de REMEDIOS
-            (obj) => obj.substancia.toUpperCase().includes(filtro) ); //juntas os objetos filtrados em um array
-    }
-    return filtrado
+    var filtradoSub = REMEDIOS.filter( //filtra os objetos de REMEDIOS
+        (obj) => obj.substancia.toUpperCase().includes(filtro) ); //juntas os objetos filtrados em um array
+    var filtrados= filtradoNome.concat(filtradoSub)
+    return filtrados
 };
 const removeAll = () => {
     REMEDIOS=[]
   };
 const remove = (key) => {
-    return REMEDIOS.splice(REMEDIOS.indexOf(key), 1);
+  REMEDIOS = REMEDIOS.filter((obj)=>{
+    return obj.nome!==key
+  })
+};
+const update = (key, data) => {
+    REMEDIOS.forEach(function(item) {
+      if (item.nome === key){
+        item.nome = data.nome
+        item.utilidade = data.utilidade
+        item.substancia = data.substancia
+        item.receita = data.receita
+        item.gramas = data.gramas
+        item.laboratorio = data.laboratorio
+        item.preco = data.preco
+      }
+    });    
+    return 
 };
 
 const create = (data) => { //bota a novo objeto
     return REMEDIOS.push(data);
   };
-  
-const update = () => {};
 const geradorDeId=()=>{
     return REMEDIOS.length + 1
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, } from "react";
 import { Link } from "react-router-dom";
 import RemedioDataService from "../services/RemedioDataService";
 const RemedioList = () => {
@@ -6,17 +6,29 @@ const RemedioList = () => {
     const [remedios, setRemedios] = useState(RemedioDataService.getAll());
     const onChangePesquisa = e => { // captura o filtro e coloca ele no filtro
         const Pesquisa = e.target.value;
-        setPesquisa(Pesquisa);
+        setPesquisa(Pesquisa); 
     };
+    useEffect( // faz nao prescisar do botão
+        () => {
+            findByTitle();
+        },[pesquisa]
+    )
     const findByTitle = () => { //chama dataService para fazer a procura
         setRemedios(RemedioDataService.getById(pesquisa))
     };
     const deleteRemedio = (id) => {
-        RemedioDataService.remove(id)
+        if (window.confirm('Deseja excluir o '+id+"?")){
+            RemedioDataService.remove(id)
+            setRemedios(RemedioDataService.getAll())
+          } 
     }
   
     const removeAllRemedios = () => {
-      RemedioDataService.removeAll()
+        if (window.confirm('Deseja excluir todos os remedios da lista?')){
+            RemedioDataService.removeAll()
+            setRemedios(RemedioDataService.getAll())
+          }
+      
     };
     return (
         <div className="list row">
@@ -29,19 +41,10 @@ const RemedioList = () => {
                 value={pesquisa} //desnecessario, nesse caso
                 onChange={onChangePesquisa} // chama a função que bota valor em Pesquisa
               />
-              <div className="input-group-append">
-                <button
-                  className="btn btn-outline-secondary"
-                  type="button"
-                  onClick={findByTitle}
-                >
-                  Search
-                </button>
-              </div>
             </div>
           </div>
           <div className="col-md-10">
-            <h4>remedios List</h4>
+            <h4>Lista Remedios</h4>
             <table class="table">
               <thead class="thead-dark">
                 <tr>
@@ -65,7 +68,7 @@ const RemedioList = () => {
                         <td>{remedio.substancia}</td>
                         <td>{remedio.laboratorio}</td>
                         <td>{remedio.preco}</td>
-                        <td>{remedio.receita}</td>
+                        <td>{remedio.receita ? "true" : "false"}</td>
                         <td> <Link to={"/remedios/" + remedio.nome} //cria um botão de manda para remedio(tela de editar) do produto
                         className="m-3 btn btn-sm btn-warning">Edit</Link> 
                         </td>

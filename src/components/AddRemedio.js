@@ -130,14 +130,14 @@ const AddRemedio = () => {
             />
           </div>
           <div class="mb-3 form-check">
-          <input
+            <input
               type="checkbox"
               className="form-check-input"
               id="receita"
               required
               value={remedio.receita}
               name="receita" // assim que ele pega a propriedade
-            />
+                />
                 <label class="form-check-label" for="exampleCheck1">Receita necessária</label>
             </div>
           <button onClick={saveremedio} className="btn btn-success">
