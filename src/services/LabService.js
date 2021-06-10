@@ -1,9 +1,9 @@
 let Remedy = [
-    {title: 'Paracetamol', estoque: 'Disponivel', laboratorio:"Bifarma ",published: 'Published'},
-    {title: 'Dorflex', estoque: 'Disponivel',laboratorio:"Sanofi Aventis" ,published: 'Published'},
-    {title: 'Dipirona', estoque: 'Disponivel', laboratorio:"Sanofi Aventis", published: 'Published'},
-    {title: 'Dramin', estoque: 'Indisponivel',laboratorio:"Takeda Pharma Ltda" ,published: 'Published'},
-    {title: 'Loratadina', estoque: 'Disponivel', laboratorio:"Aché Laboratórios Farmacêuticos S.A." ,published: 'Published'}
+    {"title": "Paracetamol", "estoque": "Disponivel", "laboratorio": "Bifarma ","published": "Published"},
+    {"title": "Dorflex", "estoque": "Disponivel","laboratorio": "Sanofi Aventis" ,"published": "Published"},
+    {"title": "Dipirona", "estoque": "Disponivel", "laboratorio": "Sanofi Aventis", "published": "Published"},
+    {"title": "Dramin", "estoque": "Indisponivel","laboratorio": "Takeda Pharma Ltda" ,"published": "Published"},
+    {"title": "Loratadina", "estoque": "Disponivel", "laboratorio": "Aché Laboratórios Farmacêuticos S.A." ,"published": "Published"}
   ]
 
   const remove = (id) => {
