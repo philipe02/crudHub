@@ -1,13 +1,13 @@
 let Remedy = [
-    {"title": "Paracetamol", "estoque": "Disponivel", "laboratorio": "Bifarma ","published": "Published"},
-    {"title": "Dorflex", "estoque": "Disponivel","laboratorio": "Sanofi Aventis" ,"published": "Published"},
-    {"title": "Dipirona", "estoque": "Disponivel", "laboratorio": "Sanofi Aventis", "published": "Published"},
-    {"title": "Dramin", "estoque": "Indisponivel","laboratorio": "Takeda Pharma Ltda" ,"published": "Published"},
-    {"title": "Loratadina", "estoque": "Disponivel", "laboratorio": "Aché Laboratórios Farmacêuticos S.A." ,"published": "Published"}
-  ]
-
-  const remove = (id) => {
-   Remedy = Remedy.filter((title)=>{
+    {"id":1,"title": "Paracetamol", "estoque": "Disponivel", "laboratorio": "Bifarma ","published": "Published"},
+    {"id":2,"title": "Dorflex", "estoque": "Disponivel","laboratorio": "Sanofi Aventis" ,"published": "Published"},
+    {"id":3,"title": "Dipirona", "estoque": "Disponivel", "laboratorio": "Sanofi Aventis", "published": "Published"},
+    {"id":4,"title": "Dramin", "estoque": "Indisponivel","laboratorio": "Takeda Pharma Ltda" ,"published": "Published"},
+   {"id":5,"title": "Loratadina", "estoque": "Disponivel", "laboratorio": "Aché Laboratórios Farmacêuticos S.A." ,"published": "Published"}
+]
+  
+const remove = (id) => {
+  Remedy = Remedy.filter((title)=>{
       return title.title !== id 
   })
   }
