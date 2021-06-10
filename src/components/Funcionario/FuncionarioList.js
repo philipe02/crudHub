@@ -14,6 +14,7 @@ const FuncionarioList = () => {
     };
     const [searchTitle, setSearchTitle] = useState("");
     const [funcionarios, setFuncionarios] = useState([]);
+    const [editando, setEditando] = useState(false);
     const [funcionarioAtual, setFuncionarioAtual] = useState(initialState);
 
     function onChangeSearchTitle(e) {
@@ -22,17 +23,22 @@ const FuncionarioList = () => {
     }
 
     function deleteFuncionario(id) {
-        if (window.confirm("Deseja excluir?"))
-            FuncionarioDataService.remove(id);
-
-        setFuncionarios(FuncionarioDataService.getAll());
+        if (window.confirm("Deseja excluir?")) {
+            FuncionarioDataService.remove(id)
+                .then(() => {
+                    atualizarLista();
+                })
+                .catch(console.log);
+        }
     }
     function atualizarLista() {
         console.log("entrei");
-        FuncionarioDataService.getAll().then((response) => {
-            setFuncionarios(response.data);
-        });
-        console.log(FuncionarioDataService.getAll());
+        FuncionarioDataService.getAll()
+            .then((response) => {
+                setFuncionarios(response.data);
+                console.log(response.data);
+            })
+            .catch(console.log);
     }
 
     function handleAdd() {}
@@ -40,14 +46,16 @@ const FuncionarioList = () => {
     function handleEditar() {}
 
     function deleteAllFuncionarios() {
-        /* if (
+        if (
             window.confirm(
                 "Tem certeza que deseja deletar todos os funcionários?"
             )
         )
-            FuncionarioDataService.removeAll(); */
-        console.log(funcionarios);
-        setFuncionarios(FuncionarioDataService.getAll());
+            FuncionarioDataService.removeAll()
+                .then(() => {
+                    atualizarLista();
+                })
+                .catch(console.log);
     }
     useEffect(atualizarLista, []);
 
@@ -94,47 +102,56 @@ const FuncionarioList = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {funcionarios.map((funcionario, index) => (
-                            <tr key={funcionario.id}>
-                                <th scope="row">{funcionario.id}</th>
-                                <td>{funcionario.name}</td>
-                                <td>{funcionario.role}</td>
-                                <td>
-                                    {" "}
-                                    <button
-                                        type="button"
-                                        onClick={() =>
-                                            setFuncionarioAtual(funcionario)
-                                        }
-                                        className="badge badge-warning"
-                                        data-toggle="modal"
-                                        data-target="#editFuncModal"
-                                    >
-                                        Edit
-                                    </button>
-                                </td>
-                                <td>
-                                    {" "}
-                                    <Link
-                                        onClick={() =>
-                                            deleteFuncionario(funcionario.id)
-                                        }
-                                        className="badge badge-danger"
-                                    >
-                                        Remove
-                                    </Link>
-                                </td>
-                            </tr>
-                        ))}
+                        {funcionarios &&
+                            funcionarios.map((funcionario, index) => (
+                                <tr key={funcionario.id}>
+                                    <th scope="row">{funcionario.id}</th>
+                                    <td>{funcionario.name}</td>
+                                    <td>{funcionario.role}</td>
+                                    <td>
+                                        {" "}
+                                        <Link
+                                            onClick={() => {
+                                                setFuncionarioAtual(
+                                                    funcionario
+                                                );
+                                                setEditando(true);
+                                            }}
+                                            className="badge badge-warning"
+                                            data-toggle="modal"
+                                            data-target="#editFuncModal"
+                                        >
+                                            Edit
+                                        </Link>
+                                    </td>
+                                    <td>
+                                        {" "}
+                                        <Link
+                                            onClick={() =>
+                                                deleteFuncionario(
+                                                    funcionario.id
+                                                )
+                                            }
+                                            className="badge badge-danger"
+                                        >
+                                            Remove
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
                     </tbody>
                     <tbody></tbody>
                 </table>
             </div>
             <AddFuncionario atualizarLista={atualizarLista} />
-            <Funcionario
-                setFuncionarios={setFuncionarios}
-                funcionarioAtual={funcionarioAtual}
-            />
+            {editando ? (
+                <Funcionario
+                    setFuncionarios={setFuncionarios}
+                    funcionarioAtual={funcionarioAtual}
+                    setEditando={setEditando}
+                    atualizarLista={atualizarLista}
+                />
+            ) : null}
         </div>
     );
 };

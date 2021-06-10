@@ -23,10 +23,12 @@ const AddFuncionario = (props) => {
     }
 
     function handleSubmit(e) {
-        FuncionarioDataService.create(funcionario);
-        setSubmitted(true);
-        console.log(FuncionarioDataService.getAll());
-        props.atualizarLista();
+        FuncionarioDataService.create(funcionario)
+            .then(() => {
+                setSubmitted(true);
+                props.atualizarLista();
+            })
+            .catch(console.log);
     }
 
     return (

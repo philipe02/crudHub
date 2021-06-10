@@ -16,13 +16,14 @@ const Funcionario = (props) => {
 
     useEffect(() => {
         console.log(props.funcionarioAtual);
-        if (props.funcionarioAtual.id)
+        /* if (props.funcionarioAtual.id)
             var data = FuncionarioDataService.getById(
                 props.funcionarioAtual.id
             );
         console.log(data);
-        data ? setFuncionario(data) : setFuncionario(initialState);
-    }, []);
+        data ? setFuncionario(data) : setFuncionario(initialState); */
+        setFuncionario(props.funcionarioAtual);
+    }, [props.funcionarioAtual]);
 
     function novaEdicao() {
         const data = FuncionarioDataService.getById(funcionario.id);
@@ -37,8 +38,10 @@ const Funcionario = (props) => {
 
     function handleSubmit(e) {
         e.preventDefault();
-        FuncionarioDataService.update(funcionario);
-        setSubmitted(true);
+        FuncionarioDataService.update(funcionario).then(() => {
+            setSubmitted(true);
+            props.atualizarLista();
+        });
     }
 
     return (
@@ -52,7 +55,7 @@ const Funcionario = (props) => {
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Adicionar funcionário</h5>
+                        <h5 class="modal-title">Editar funcionário</h5>
                         <button
                             type="button"
                             class="close"
@@ -129,12 +132,12 @@ const Funcionario = (props) => {
                                 className="btn btn-primary"
                                 onClick={novaEdicao}
                             >
-                                Adicionar
+                                Editar
                             </button>
                         ) : (
                             <Link to={"/funcionario"} onClick={handleSubmit}>
                                 <button className="btn btn-primary">
-                                    Adicionar
+                                    Editar
                                 </button>
                             </Link>
                         )}
