@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle";
 import AddRemedio from "./components/Remedio/AddRemedio";
 import Remedio from "./components/Remedio/Remedio";
 import RemedioList from "./components/Remedio/RemedioList";

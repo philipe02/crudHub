@@ -1,43 +1,29 @@
-let FUNCIONARIOS = [
-    { id: 1, name: "Jão", role: "Atendente", salary: 1000 },
-    { id: 2, name: "Mariah", role: "Farmacêutico", salary: 3000 },
-];
+import http from "../http-common";
 
 const getAll = () => {
-    return FUNCIONARIOS;
+    return http.funcionarios.get("/funcionarios");
 };
 
 const getById = (id) => {
-    if (id === "") return FUNCIONARIOS;
-    var encontrado = FUNCIONARIOS.find((obj) => obj.id == id); // retorna o obj com o id passado
-    return encontrado;
+    return http.funcionarios.get(`/funcionarios/${id}`);
 };
 const filterByName = (name) => {
-    if (name === "") return FUNCIONARIOS;
-    var filtrado = FUNCIONARIOS.filter((obj) =>
-        obj.name.toLowerCase().includes(name.toLowerCase())
-    ); // retorna os objs que contém
-    return filtrado;
+    return http.funcionarios.get(`/funcionarios?name=${name}`);
 };
 const remove = (id) => {
-    return FUNCIONARIOS.splice(FUNCIONARIOS.indexOf(id), 1);
+    return http.funcionarios.delete(`/funcionarios/${id}`);
 };
 const create = (funcionario) => {
-    funcionario = {
-        id: FUNCIONARIOS[FUNCIONARIOS.length - 1].id + 1,
-        ...funcionario,
-    };
-    console.log(funcionario);
-    FUNCIONARIOS.push(funcionario);
-    return funcionario;
+    return http.funcionarios.post("/funcionarios", funcionario);
 };
 const update = (funcionario) => {
-    FUNCIONARIOS = FUNCIONARIOS.map((func) =>
-        func.id === funcionario.id ? funcionario : func
+    return http.funcionarios.put(
+        `/funcionarios/${funcionario.id}`,
+        funcionario
     );
 };
 const removeAll = () => {
-    FUNCIONARIOS = [];
+    return http.funcionarios.delete("/funcionarios");
 };
 
 export default {
