@@ -18,33 +18,51 @@ import PromocaoList from "./components/Promocao/PromocaoList";
 import Home from "./components/Home";
 
 import Navegacao from "./components/Navegacao";
+import { FuncionarioProvider } from "./context/FuncionarioContext";
 
 function App() {
     return (
         <div>
             <Navegacao />
             <div className="container mt-3">
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route
-                        exact
-                        path="/funcionario"
-                        component={FuncionarioList}
-                    />
-                    <Route exact path={"/Remedios"} component={RemedioList} />
-                    <Route exact path="/add" component={AddRemedio} />
-                    <Route path="/Remedios/:id" component={Remedio} />
-                    <Route
-                        exact
-                        path="/funcionario/add"
-                        component={AddFuncionario}
-                    />
-                    <Route path="/funcionario/:id" component={Funcionario} />
+                <FuncionarioProvider>
+                    <Switch>
+                        <Route exact path="/" component={Home} />
+                        <Route
+                            exact
+                            path="/funcionario"
+                            component={FuncionarioList}
+                        />
+                        <Route
+                            exact
+                            path={"/Remedios"}
+                            component={RemedioList}
+                        />
+                        <Route exact path="/add" component={AddRemedio} />
+                        <Route path="/Remedios/:id" component={Remedio} />
+                        <Route
+                            exact
+                            path="/funcionario/add"
+                            component={AddFuncionario}
+                        />
+                        <Route
+                            path="/funcionario/:id"
+                            component={Funcionario}
+                        />
 
-                    <Route exact path={"/Promocao"} component={PromocaoList} />
-                    <Route exact path="/Promocao/add" component={AddPromocao} />
-                    <Route path="/Promocao/:id" component={Promocao} />
-                </Switch>
+                        <Route
+                            exact
+                            path={"/Promocao"}
+                            component={PromocaoList}
+                        />
+                        <Route
+                            exact
+                            path="/Promocao/add"
+                            component={AddPromocao}
+                        />
+                        <Route path="/Promocao/:id" component={Promocao} />
+                    </Switch>
+                </FuncionarioProvider>
             </div>
         </div>
     );
