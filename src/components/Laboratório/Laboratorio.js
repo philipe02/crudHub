@@ -19,18 +19,6 @@ const LabState = {
   
   
 
-  useEffect(()=>{
-     LabService.getById(key)
-    .then(response => {
-      setCurrentLab( response.data)
-      
-      console.log(response);
-    })
-    .catch(e => {
-      console.log(e);
-    });
- 
-  }, [])
   
   const getTutorial = id => {
     LabService.getById(id)
