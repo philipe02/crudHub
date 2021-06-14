@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/components/Remedio.js
 import React, { useState, useEffect } from "react";
 import RemedioDataService from "../services/RemedioDataServiceRest";
 import { Link } from "react-router-dom";
@@ -168,3 +169,10 @@ const Remedio = props => {
 
 export default Remedio;
 
+=======
+import React from "react";
+const Remedio = () => {
+    return <div></div>;
+};
+export default Remedio;
+>>>>>>> fc8987c92a541c05a0d3be82a0913580625b148d:src/components/Remedio/Remedio.js
