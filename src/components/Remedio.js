@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import RemedioDataService from "../services/RemedioDataService";
+import RemedioDataService from "../services/RemedioDataServiceRest";
 import { Link } from "react-router-dom";
 
 const Remedio = props => {
@@ -13,29 +13,23 @@ const Remedio = props => {
     laboratorio:"",
     preco:null,
   };
-  const [box, setBox] = useState(true);
   const [message, setMessage] = useState("");
   const [currentRemedio, setCurrentRemedio] = useState(initialRemedioState);
-  const [key, setKey] = useState(props.match.params.id) //pega o kay pela pagina
   useEffect(()=>{
-    const data = RemedioDataService.getById(key)
-    setCurrentRemedio(data[0])
-    console.log(data[0]);
-    console.log(currentRemedio);
-  }, [])//O [] faz com que o useEffect seja chamado quando carrega a tela
-  useEffect(()=>{
-    console.log(currentRemedio.receita);
-    console.log("entrei");
-  },[setCurrentRemedio])
-  const testaReceita = () =>{
-    let chechbox=document.getElementById('receita')
-    console.log("entrei");
-    if (chechbox.checked) {
-        setCurrentRemedio(currentRemedio.receita=true)
-    }
-    else{
-        setCurrentRemedio(currentRemedio.receita=false)
-    }
+    getRemedios(props.match.params.id)
+
+  }, [props.match.params.id])//O [] faz com que o useEffect seja chamado quando carrega a tela
+  const getRemedios=(key)=>{
+    RemedioDataService.getId(key)      
+    .then(response => {
+      setCurrentRemedio(response.data);
+    })
+    .catch(e => {
+      console.log(e);
+    });
+  }
+  const box =()=>{
+    setCurrentRemedio({...currentRemedio,["receita"]:!currentRemedio.receita})
   }
   const   handleInputChange = event => {
     const { name, value } = event.target;
@@ -43,9 +37,12 @@ const Remedio = props => {
   };
 
   const updateRemedio = () => {
-    testaReceita()
-    RemedioDataService.update(key, currentRemedio);
-    setCurrentRemedio(currentRemedio)
+    RemedioDataService.update(currentRemedio.id, currentRemedio).then(
+      response=>{
+        setCurrentRemedio(response.data)
+        props.history.push("/");
+      }
+    );
   };
 
   return (
@@ -127,11 +124,12 @@ const Remedio = props => {
             />
           </div>
           <div class="mb-3 form-check">
-          {box ? <input
+          {currentRemedio.receita ? <input
               type="checkbox"
               className="form-check-input"
               id="receita"
               required
+              onChange={()=>box()}
               value={currentRemedio.receita}
               name="receita" // assim que ele pega a propriedade
                 checked/> : <input
@@ -139,6 +137,7 @@ const Remedio = props => {
                 className="form-check-input"
                 id="receita"
                 required
+                onChange={()=>box()}
                 value={currentRemedio.receita}
                 name="receita" // assim que ele pega a propriedade
                 />
@@ -146,7 +145,7 @@ const Remedio = props => {
                 <label class="form-check-label" for="receita">Receita necessária</label>
             </div>
             </form>
-          <Link to="/">
+          
             <button
               type="submit"
               className="m-3 btn btn-sm btn-success"
@@ -154,7 +153,7 @@ const Remedio = props => {
             >
               Update
             </button>
-          </Link>
+         
           <p>{message}</p>
         </div>
       ) : (

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import RemedioDataService from "../services/RemedioDataService";
+import RemedioDataService from "../services/RemedioDataServiceRest";
 
 const AddRemedio = () => {
   const initialRemedioState = {
@@ -31,9 +31,22 @@ const AddRemedio = () => {
   }
   const saveremedio = () => {
     testaReceita()
-    setRemedio(remedio.id=RemedioDataService.geradorDeId())
-    RemedioDataService.create(remedio); //manda para dados para inserir na lista
-    setSubmitted(true); //exibe a tela que deu certo
+    RemedioDataService.create(remedio).then(response => {
+      setRemedio({
+        id: response.data.id,
+        nome: response.data.nome,
+        utilidade: response.data.utilidade,
+        substancia: response.data.substancia,
+        laboratorio: response.data.laboratorio,
+        receita: response.data.receita,
+        gramas: response.data.gramas,
+        preco: response.data.preco,
+      });
+      setSubmitted(true);//exibe a tela que deu certo
+    })
+    .catch(e => {
+      console.log(e);
+    }); //manda para dados para inserir na lista
   };
 
   const newremedio = () => { //reseta a tela

@@ -1,33 +1,65 @@
 import React, { useEffect, useState, } from "react";
 import { Link } from "react-router-dom";
-import RemedioDataService from "../services/RemedioDataService";
+import RemedioDataService from "../services/RemedioDataServiceRest";
 const RemedioList = () => {
     const [pesquisa,setPesquisa] = useState('');
-    const [remedios, setRemedios] = useState(RemedioDataService.getAll());
+    const [remedios, setRemedios] = useState();
     const onChangePesquisa = e => { // captura o filtro e coloca ele no filtro
         const Pesquisa = e.target.value;
         setPesquisa(Pesquisa); 
     };
-    useEffect( // faz nao prescisar do botão
+    useEffect(()=>{ //pega a lista da api e bota em remedios
+      AtualizaLista()
+    },[])
+    const AtualizaLista = () =>{
+      RemedioDataService.getAll()
+      .then(response => {
+        setRemedios(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+    }
+    useEffect( // toda fez que muda o input de pesquisa ele pedi pra filtar
         () => {
             findByTitle();
         },[pesquisa]
     )
     const findByTitle = () => { //chama dataService para fazer a procura
-        setRemedios(RemedioDataService.getById(pesquisa))
+        return RemedioDataService.getName(pesquisa)      
+        .then(response => {
+          setRemedios(response.data);
+        })
+        .catch(e => {
+          console.log(e);
+        });
     };
+    const findBySub = () => {
+      return RemedioDataService.getSubstancia(pesquisa)      
+      .then(response => {
+        setRemedios(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
     const deleteRemedio = (id) => {
         if (window.confirm('Deseja excluir o '+id+"?")){
-            RemedioDataService.remove(id)
-            setRemedios(RemedioDataService.getAll())
+            RemedioDataService.remove(id)        
+            .then(response => {
+              AtualizaLista()
+            })
+            .catch(e => {
+              console.log(e);
+            });
           } 
     }
   
     const removeAllRemedios = () => {
-        if (window.confirm('Deseja excluir todos os remedios da lista?')){
-            RemedioDataService.removeAll()
-            setRemedios(RemedioDataService.getAll())
-          }
+        // if (window.confirm('Deseja excluir todos os remedios da lista?')){
+        //     RemedioDataService.removeAll()
+        //     setRemedios(RemedioDataService.getAll())
+        //   }
       
     };
     return (
@@ -38,7 +70,6 @@ const RemedioList = () => {
                 type="text"
                 className="form-control"
                 placeholder="Search by title"
-                value={pesquisa} //desnecessario, nesse caso
                 onChange={onChangePesquisa} // chama a função que bota valor em Pesquisa
               />
             </div>
@@ -69,10 +100,10 @@ const RemedioList = () => {
                         <td>{remedio.laboratorio}</td>
                         <td>{remedio.preco}</td>
                         <td>{remedio.receita ? "true" : "false"}</td>
-                        <td> <Link to={"/remedios/" + remedio.nome} //cria um botão de manda para remedio(tela de editar) do produto
+                        <td> <Link to={"/remedios/" + remedio.id} //cria um botão de manda para remedio(tela de editar) do produto
                         className="m-3 btn btn-sm btn-warning">Edit</Link> 
                         </td>
-                        <td> <Link onClick={() => deleteRemedio(remedio.nome)} //cria botão chama a função de remover
+                        <td> <Link onClick={() => deleteRemedio(remedio.id)} //cria botão chama a função de remover
                         className="m-3 btn btn-sm btn-danger">Remove</Link>
                         </td>
                     </tr>
