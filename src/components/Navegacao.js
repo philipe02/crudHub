@@ -38,6 +38,13 @@ function Navegacao(props) {
                             </button>
                         </Link>
                     </li>
+                    <li className="nav-item">
+                        <Link to={"/laboratorio"} className="nav-link">
+                            <button className="btn btn-warning">
+                                Laboratorio
+                            </button>
+                        </Link>
+                    </li>
                 </div>
             </nav>
         </div>

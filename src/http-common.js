@@ -19,9 +19,9 @@ const promocoes = axios.create({
         "Content-type": "application/json",
     },
 });
-
-const laboratorios = axios.create({
-    baseURL: "",
+ 
+const laboratorio = axios.create({
+    baseURL: "https://60c28541917002001739d21d.mockapi.io/",
     headers: {
         "Content-type": "application/json",
     },
@@ -34,4 +34,4 @@ const clientes = axios.create({
     },
 });
 
-export default { funcionarios, remedios, promocoes, laboratorios, clientes };
+export default { funcionarios, remedios, promocoes, laboratorio, clientes };

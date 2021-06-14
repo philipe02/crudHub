@@ -1,12 +1,13 @@
 
 import React, { useState, useEffect } from "react";
-import LabService from "../../services/LabService";
+import LabService from "../../services/LabServiceRest";
 import { Link } from "react-router-dom";
 
 const Laboratorio = (props)=> {
   
 const LabState = {
-    key:null,
+   
+    id:null,
     title: "",
     estoque:"",
     laboratorio: "",
@@ -19,47 +20,52 @@ const LabState = {
   
 
   useEffect(()=>{
-    const data = LabService.getById(key)
-    console.log(key);
-    setCurrentLab(data[0])  
-     
+     LabService.getById(key)
+    .then(response => {
+      setCurrentLab( response.data)
+      
+      console.log(response);
+    })
+    .catch(e => {
+      console.log(e);
+    });
+ 
   }, [])
+  
+  const getTutorial = id => {
+    LabService.getById(id)
+      .then(response => {
+        setCurrentLab(response.data);
+        console.log(response.data);
+      })
+      .catch(e => {
+        console.log(e);
+      });
+  };
+
+  useEffect(() => {
+    getTutorial(props.match.params.id);
+  }, [props.match.params.id]);
 
   const   handleInputChange = event => {
     const { name, value } = event.target;
     setCurrentLab({ ...currentLab, [name]: value });
   };
 
-  const updatePublished = status => {
-    const data = {
-      title: currentLab.title,
-      estoque: currentLab.estoque,
-      laboratorio: currentLab.laboratorio,
-      published: status
-    };
-    LabService.update(key, data);  
-    setCurrentLab(data)
-  };
+  
 
   const updateTutorial = () => {
-    console.log(currentLab)
-    const data = {
-        title: currentLab.title,
-        estoque: currentLab.estoque,
-        laboratorio: currentLab.laboratorio,
-      published: currentLab.published
-    };  
-    LabService.update(key, data);
-    setCurrentLab(data)
-  };
-  const deleteTutorial = () => {
-    if (window.confirm('Deseja excluir?')){
-      LabService.remove(setCurrentLab.key);// função criada no LabService 
-     
-     
-     
-    }
-  }
+    LabService.update(currentLab.id, currentLab)
+    .then(response => {
+      console.log(response);
+      alert("Atualizado com sucesso!")
+      props.history.push("/laboratorio") // faz oq o link faz, fora do link "voltar"
+    })
+    .catch(e => {
+      console.log(e);
+    });
+}
+  
 
   
 
@@ -82,7 +88,7 @@ const LabState = {
                                         name="laboratorio"
                                         value={currentLab.laboratorio}
                                         onChange={handleInputChange}
-                                        required
+                                        required 
                                       />
                                     </div>
 
@@ -124,35 +130,14 @@ const LabState = {
 
                             </form>
 
-                          {currentLab.published ? (
-                                  <button
-                                    className="badge badge-primary mr-2"
-                                    onClick={() => updatePublished(false)}
-                                  >
-                                    UnPublish
-                                  </button>
-                          ) : (
-                                  <button
-                                    className="badge badge-primary mr-2"
-                                  onClick={() => updatePublished(true)}
-                                  >
-                                    Publish
-                                  </button>
-                                )}
-
-                                <button className="badge badge-danger mr-2" onClick={deleteTutorial}>
-                                  Delete
-                                </button>
-                               <Link to="/">
-
-                                <button
-                                  type="submit"
-                                  className="badge badge-success"
-                                  onClick={updateTutorial}
-                                >
-                                  Update
-                                </button>
-                                </Link>
+                                    <button
+                                      type="submit"
+                                      className="badge badge-success"
+                                      onClick={updateTutorial}
+                                    >
+                                      Update
+                                    </button>
+                               
 
                        
 
@@ -168,5 +153,6 @@ const LabState = {
                     </div>
             );
 };
+
 
 export default Laboratorio;

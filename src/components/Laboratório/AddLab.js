@@ -1,6 +1,8 @@
 
 import { useState } from "react";
-import LabService from "../../services/LabService";
+import LabService from "../../services/LabServiceRest";
+import {Link } from "react-router-dom";
+
 const AddLab = () => {
 
  const InicialLabState = {
@@ -14,7 +16,7 @@ const AddLab = () => {
 
  const [InicialLab, setInicialLab] = useState(InicialLabState);
  const [submitted, setSubmitted] = useState(false);
- console.log(InicialLab)
+ 
 
  const handleInputchange = (event) => {
 
@@ -23,21 +25,25 @@ const AddLab = () => {
 
  }
 
-
+ 
  const saveLab = () => {
 
-     var data = {
-         title:InicialLab.title,
-         estoque:InicialLab.estoque,
-         laboratorio:InicialLab.laboratorio,
-         published:false
-        
-        }
-        LabService.createe(data);
-        setSubmitted(true);
-        console.log(LabService.getAll());
+     
+        LabService.create(InicialLab)
+
+        .then(response => {
+            setInicialLab(
+             InicialLabState
+            )
+            setSubmitted(true);
+            console.log(response.InicialLab);
+          })
+          .catch(e => {
+            console.log(e);
+          });
        
- }
+        }
+        
  
 
 
@@ -61,16 +67,18 @@ const AddLab = () => {
                             <button className="btn btn-success" onClick={newInicialLab}>
                              Adicionar outra informação?
                             </button>
-                            <button className="btn btn-primary ml-5" >
-                             Voltar
-                            </button>
                             
+                            <Link to="/laboratorio">
+                                <button type="button" className="btn btn-primary ml-5">
+                                    Voltar
+                                </button>
+                            </Link>
             </div>
 
          ) : (
 
             <div>
-                    <form onSubmit={saveLab}>
+                    <form onSubmit={saveLab} id="form">
                             <h4>Adicione o laboratório e suas especificações abaixo:</h4>
                             <div className="form-group">
                                         <label htmlFor="description">Laboratorio:</label>
@@ -89,15 +97,19 @@ const AddLab = () => {
                                 <div className="form-group">
 
                                         <label htmlFor="description">Estoque:</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            id="estoque"
-                                            required
-                                            value={InicialLab.estoque}
-                                            onChange={handleInputchange}
-                                            name="estoque"
-                                        />
+                                        
+                                        <select 
+                                        id="estoque"
+                                        name="estoque"
+                                        className="form-control custom-select"
+                                        value={InicialLab.estoque}
+                                        onChange={handleInputchange} 
+                                        required
+                                        >
+                                          <option >Indisponivel</option>
+                                          <option >Disponivel</option>
+                                          
+                                        </select>
 
                                 </div>
 
@@ -115,13 +127,15 @@ const AddLab = () => {
                                         />
                                 </div>
 
-                            <button 
+                                <button 
                                     type="submit" 
-                                    onClick={saveLab}
+                                    form="form"
+                                    onClick={(evento)=>{evento.preventDefault();saveLab()} }
                                     className="btn btn-success">Adicionar
                             </button>  
 
                         </form>
+                        
                     </div>
                     )}
             </div>

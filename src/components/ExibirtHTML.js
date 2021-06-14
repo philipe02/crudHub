@@ -11,7 +11,7 @@ function Home() {
             <nav className="navbar navbar-expand navbar-dark bg-dark">
                 
                 <div className="navbar-nav">
-                <Link to={"/"} className="nav-link " >
+                <Link to={"/laboratorio"} className="nav-link " >
                           hubFarma
                         </Link> 
                     <li className="nav-item">
@@ -33,13 +33,10 @@ function Home() {
             <div className="container mt-3">
                 <Switch>
                     <Route 
-                    exact path="/" 
+                    exact path="/laboratorio" 
                     component={LabList} />
 
-                    <Route 
-                        exact path="/laboratorio"
-                        component={Laboratorio} 
-                    />
+                    
                     <Route
                         exact
                         path="/laboratorio/add"
