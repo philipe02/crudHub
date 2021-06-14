@@ -31,7 +31,7 @@ let PROMOCOES = [
         datainicio: "2021-04-18",
         datafim: "2021-04-18",
     },
-];
+]; 
 
 const getAll = () => {
     return PROMOCOES;
