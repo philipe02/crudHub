@@ -14,7 +14,7 @@ const remedios = axios.create({
 });
 
 const promocoes = axios.create({
-    baseURL: "",
+    baseURL: "https://60bfbc0697295a0017c43b81.mockapi.io/",
     headers: {
         "Content-type": "application/json",
     },
