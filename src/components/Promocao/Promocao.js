@@ -16,16 +16,16 @@ const Promocao = (props) => {
     const [submitted, setSubmitted] = useState(false);
 
     useEffect(() => {
-        console.log(props.match.params);
-        const data = PromocaoDataService.getById(props.match.params.id);
-        console.log(data);
-        setPromocao(data);
+        PromocaoDataService.getById(props.match.params.id).then(({ data }) => {
+            setPromocao(data);
+        });
     }, []);
 
     function novaEdicao() {
-        const data = PromocaoDataService.getById(promocao.id);
-        setPromocao(data);
-        setSubmitted(false);
+        PromocaoDataService.getById(promocao.id).then(({ data }) => {
+            setPromocao(data);
+            setSubmitted(false);
+        });
     }
 
     function handleChange(e) {
@@ -35,7 +35,9 @@ const Promocao = (props) => {
 
     function handleSubmit(e) {
         e.preventDefault();
-        PromocaoDataService.update(promocao);
+        PromocaoDataService.update(promocao).then(({ data }) => {
+            setPromocao(data);
+        });
         setSubmitted(true);
     }
 
@@ -60,7 +62,7 @@ const Promocao = (props) => {
                 </div>
             ) : (
                 <form onSubmit={handleSubmit} className="w-50">
-                    <label className="mt-2">Promoção</label>
+                    <label className="mt-2">Nome da promoção</label>
                     <input
                         id="input-name"
                         name="name"
@@ -71,20 +73,17 @@ const Promocao = (props) => {
                         onChange={handleChange}
                         required
                     />
-                    <label className="mt-2">Data Inicial da Promoção</label>
+                    <label className="mt-2">Descrição da promoção</label>
                     <input
-                        id="input-datainicial"
-                        class="form-control"
-                        type="date"
-                        value={promocao.datainicio}
-                    ></input>
-                    <label className="mt-2">Data Final da Promoção</label>
-                    <input
-                        id="input-datafinal"
-                        class="form-control"
-                        type="date"
-                        value={promocao.datafim}
-                    ></input>
+                        id="input-description"
+                        name="description"
+                        type="text"
+                        className="form-control"
+                        placeholder="Qual a descrição da promoção?"
+                        value={promocao.description}
+                        onChange={handleChange}
+                        required
+                    />
                     <label className="mt-2">Porcentagem do Desconto</label>
                     <input
                         id="input-discount"
@@ -96,8 +95,26 @@ const Promocao = (props) => {
                         onChange={handleChange}
                         required
                     />
+                    <label className="mt-2">Data Inicial da Promoção</label>
+                    <input
+                        id="input-datainicial"
+                        name="datainicio"
+                        class="form-control"
+                        type="date"
+                        value={promocao.datainicio}
+                        onChange={handleChange}
+                    ></input>
+                    <label className="mt-2">Data Final da Promoção</label>
+                    <input
+                        id="input-datafinal"
+                        name="datafim"
+                        class="form-control"
+                        type="date"
+                        value={promocao.datafim}
+                        onChange={handleChange}
+                    ></input>
                     <button
-                        type="submit"
+                        onClick={handleSubmit}
                         className="form-control btn-primary my-3"
                     >
                         Adicionar

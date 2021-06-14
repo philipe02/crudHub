@@ -7,14 +7,14 @@ const funcionarios = axios.create({
 });
 
 const remedios = axios.create({
-    baseURL: "",
+    baseURL: "https://60c0016fb8d36700175540df.mockapi.io/",
     headers: {
         "Content-type": "application/json",
     },
 });
 
 const promocoes = axios.create({
-    baseURL: "",
+    baseURL: "https://60bfbc0697295a0017c43b81.mockapi.io/",
     headers: {
         "Content-type": "application/json",
     },

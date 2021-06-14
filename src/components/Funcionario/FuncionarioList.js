@@ -1,9 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { useState } from "react";
 import FuncionarioDataService from "../../services/FuncionarioDataService";
 import { Link } from "react-router-dom";
 import AddFuncionario from "./AddFuncionario";
 import Funcionario from "./Funcionario";
+import { FuncionarioContext } from "../../context/FuncionarioContext";
 
 const FuncionarioList = () => {
     const initialState = {
@@ -15,11 +16,14 @@ const FuncionarioList = () => {
     const [searchTitle, setSearchTitle] = useState("");
     const [funcionarios, setFuncionarios] = useState([]);
     const [editando, setEditando] = useState(false);
-    const [funcionarioAtual, setFuncionarioAtual] = useState(initialState);
+    const [funcionarioAtual, setFuncionarioAtual] =
+        useContext(FuncionarioContext);
 
-    function onChangeSearchTitle(e) {
+    function onBlurSearchTitle(e) {
         setSearchTitle(e.target.value);
-        setFuncionarios(FuncionarioDataService.filterByName(e.target.value));
+        FuncionarioDataService.filterByName(e.target.value).then((res) => {
+            setFuncionarios(res.data);
+        });
     }
 
     function deleteFuncionario(id) {
@@ -67,8 +71,7 @@ const FuncionarioList = () => {
                         type="text"
                         className="form-control"
                         placeholder="Search by title"
-                        value={searchTitle}
-                        onChange={onChangeSearchTitle}
+                        onBlur={onBlurSearchTitle}
                     />
                 </div>
             </div>
@@ -146,8 +149,6 @@ const FuncionarioList = () => {
             <AddFuncionario atualizarLista={atualizarLista} />
             {editando ? (
                 <Funcionario
-                    setFuncionarios={setFuncionarios}
-                    funcionarioAtual={funcionarioAtual}
                     setEditando={setEditando}
                     atualizarLista={atualizarLista}
                 />

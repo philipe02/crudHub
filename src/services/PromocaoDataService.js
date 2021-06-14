@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 let PROMOCOES = [
     {
         id: 1,
@@ -32,47 +33,36 @@ let PROMOCOES = [
         datafim: "2021-04-18",
     },
 ]; 
+=======
+import http from "../http-common";
+>>>>>>> 96eeb62d8338b06cd6bcbe39de92cdc6fd50a0e0
 
 const getAll = () => {
-    return PROMOCOES;
+    return http.promocoes.get("promocao");
 };
 
 const getById = (id) => {
-    if (id === "") return PROMOCOES;
-    var encontrado = PROMOCOES.find((obj) => obj.id == id); // retorna o obj com o id passado
-    return encontrado;
+    return http.promocoes.get("promocao/" + id);
 };
 
 const filterByName = (name) => {
-    if (name === "") return PROMOCOES;
-    var filtrado = PROMOCOES.filter((obj) =>
-        obj.name.toLowerCase().includes(name.toLowerCase())
-    ); // retorna os objs que contém
-    return filtrado;
+    return http.promocoes.get("promocao/?name=" + name);
 };
 
 const remove = (id) => {
-    return PROMOCOES.splice(PROMOCOES.indexOf(id), 1);
+    return http.promocoes.delete("promocao/" + id);
 };
 
 const create = (promocao) => {
-    promocao = {
-        id: PROMOCOES[PROMOCOES.length - 1].id + 1,
-        ...promocao,
-    };
-    console.log(promocao);
-    PROMOCOES.push(promocao);
-    return promocao;
+    return http.promocoes.post("promocao/", promocao);
 };
 
 const update = (promocao) => {
-    PROMOCOES = PROMOCOES.map((func) =>
-        func.id === promocao.id ? promocao : func
-    );
+    return http.promocoes.put("promocao/" + promocao.id, promocao);
 };
 
 const removeAll = () => {
-    PROMOCOES = [];
+    return http.promocoes.delete("promocao/");
 };
 
 export default {

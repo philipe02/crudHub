@@ -25,8 +25,9 @@ const AddPromocao = () => {
     }
 
     function handleSubmit(e) {
-        e.preventDefault();
-        PromocaoDataService.create(promocao);
+        PromocaoDataService.create(promocao).then(({ data }) => {
+            setPromocao(data);
+        });
         setSubmitted(true);
     }
 

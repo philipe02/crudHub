@@ -1,31 +1,59 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PromocaoDataService from "../../services/PromocaoDataService";
 import { Link } from "react-router-dom";
+import { param } from "jquery";
 
 const PromocaoList = () => {
-    const [searchTitle, setSearchTitle] = useState("");
-    const [promocoes, setPromocoes] = useState(PromocaoDataService.getAll());
+    const [searchTitle, setSearchTitle] = React.useState("");
+    const [promocoes, setPromocoes] = React.useState();
+
+    useEffect(() => {
+        PromocaoDataService.getAll().then(({ data }) => {
+            setPromocoes(data);
+        });
+    }, []);
 
     function onChangeSearchTitle(e) {
         setSearchTitle(e.target.value);
-        setPromocoes(PromocaoDataService.filterByName(e.target.value));
+        PromocaoDataService.filterByName(e.target.value).then(({ data }) => {
+            setPromocoes(data);
+        });
+    }
+
+    useEffect(() => {
+        estaVazio();
+    }, [searchTitle]);
+
+    function estaVazio() {
+        if (searchTitle == "") {
+            PromocaoDataService.getAll().then(({ data }) => {
+                setPromocoes(data);
+            });
+        }
+    }
+
+    function apangueiAlgo() {
+        PromocaoDataService.getAll().then(({ data }) => {
+            setPromocoes(data);
+        });
     }
 
     function deletePromocao(id) {
-        if (window.confirm("Deseja excluir?")) PromocaoDataService.remove(id);
-
-        setPromocoes(PromocaoDataService.getAll());
+        PromocaoDataService.remove(id).then(({ data }) => {
+            console.log(data);
+            apangueiAlgo();
+        });
     }
 
     function deleteAllPromocoes() {
         if (
-            window.confirm(
-                "Tem certeza que deseja deletar todos os funcionários?"
-            )
+            window.confirm("Tem certeza que deseja deletar todos as promoções?")
         )
-            PromocaoDataService.removeAll();
-        setPromocoes(PromocaoDataService.getAll());
+            PromocaoDataService.removeAll().then(({ data }) => {
+                console.log(data);
+                apangueiAlgo();
+            });
     }
 
     return (
@@ -36,8 +64,8 @@ const PromocaoList = () => {
                         type="text"
                         className="form-control"
                         placeholder="Search by title"
-                        value={searchTitle}
-                        onChange={onChangeSearchTitle}
+                        /*  value={searchTitle} */
+                        onBlur={onChangeSearchTitle}
                     />
                 </div>
             </div>
